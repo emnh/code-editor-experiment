@@ -21,8 +21,8 @@ for (let x = 0; x < window.innerWidth; x += width) {
   for (let y = 0; y < window.innerHeight; y += height) {
     const z = 0.0;
     const pos = new THREE.Vector3(
-      (x * 1.0) / window.innerWidth,
-      (y * 1.0) / window.innerHeight,
+      2 * x / window.innerWidth,
+      2 * y / window.innerHeight,
       z
     );
     const canvas = addCanvas(randGLSL(), pos);
@@ -86,7 +86,7 @@ function randFun() {
     "B / A",
     "B - A"
   ];
-  const args = ["uv.x", "uv.y", "t", Math.random().toFixed(6)];
+  const args = ["vUV.x", "vUV.y", "time", Math.random().toFixed(6)];
   let s = "";
   let longest = "";
   for (let i = 0; i < 100; i++) {

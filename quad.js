@@ -36,7 +36,16 @@ function initQuad(vert, frag, pos) {
     fragmentShader: frag
   });
 
-  const mesh = new THREE.Mesh(geometry, material);
+  const material2 = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random()
+    )
+  });
+
+  const mesh = new THREE.Mesh(geometry, material2);
   scene.add(mesh);
 
   mesh.position.set(pos.x, pos.y, pos.z);
