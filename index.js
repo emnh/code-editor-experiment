@@ -1,6 +1,42 @@
 // Import stylesheets
 import "./style.css";
 
+const prelude = `
+float distanceToMandelbrot( in vec2 c ) {
+    float c2 = dot(c, c);
+    // skip computation inside M1 - http://iquilezles.org/www/articles/mset_1bulb/mset1bulb.htm
+    if( 256.0*c2*c2 - 96.0*c2 + 32.0*c.x - 3.0 < 0.0 ) return 0.0;
+    // skip computation inside M2 - http://iquilezles.org/www/articles/mset_2bulb/mset2bulb.htm
+    if( 16.0*(c2+2.0*c.x+1.0) - 1.0 < 0.0 ) return 0.0;
+    
+
+    // iterate
+    float di =  1.0;
+    vec2 z  = vec2(0.0);
+    float m2 = 0.0;
+    vec2 dz = vec2(0.0);
+    for( int i=0; i<300; i++ )
+    {
+        if( m2>1024.0 ) { di=0.0; break; }
+
+		// Z' -> 2·Z·Z' + 1
+        dz = 2.0*vec2(z.x*dz.x-z.y*dz.y, z.x*dz.y + z.y*dz.x) + vec2(1.0,0.0);
+			
+        // Z -> Z² + c			
+        z = vec2( z.x*z.x - z.y*z.y, 2.0*z.x*z.y ) + c;
+			
+        m2 = dot(z,z);
+    }
+
+    // distance	
+	// d(c) = |Z|·log|Z|/|Z'|
+	float d = 0.5*sqrt(dot(z,z)/dot(dz,dz))*log(dot(z,z));
+    if( di>0.5 ) d=0.0;
+	
+    return d;
+}
+`;
+
 // Write Javascript code!
 const appDiv = document.getElementById("app");
 // appDiv.innerHTML = `<h1>JS Starter</h1>`;
@@ -171,7 +207,8 @@ function randPattern(x, y, A, B) {
     "B * A",
     "B + A",
     "B / max(A, 0.00001)",
-    "B - A"
+    "B - A",
+    "distanceToMandelbrot(vec2(A, B))"
   ];
   const pr = Math.floor(Math.random() * pats.length);
   return pats[pr].replace("A", A).replace("B", B);
@@ -230,7 +267,11 @@ function addCanvas(body) {
   uniform float time;
   
   varying vec2 vUV;
-  
+
+  ` +
+    prelude +
+    `
+
   void main() {
     ` +
     body +
