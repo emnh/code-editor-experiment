@@ -190,8 +190,10 @@ function randFun(x, y) {
     }
     ssum.push(s);
   }
-  const reducer = (accumulator, currentValue) => "max(" + accumulator + ", " + currentValue + ")";
-  return ssum.reduce(reducer, 0.0);
+  const reducer = (accumulator, currentValue) =>
+    "max(" + accumulator + ", " + currentValue + ")";
+  const clamper = longest => "clamp(" + longest + ", 0.0, 1.0)";
+  return ssum.filter(clamper).reduce(reducer);
   // return "clamp(" + longest + ", 0.0, 1.0)";
   // return longest;
   // return ssum;
