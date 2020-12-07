@@ -1,7 +1,7 @@
 // Import stylesheets
 // import "./style.css";
 
-const prelude = `
+let prelude = `
 float distanceToMandelbrot( in vec2 c ) {
     float c2 = dot(c, c);
     // skip computation inside M1 - http://iquilezles.org/www/articles/mset_1bulb/mset1bulb.htm
@@ -35,6 +35,7 @@ float distanceToMandelbrot( in vec2 c ) {
 
     return d;
 }
+
 `;
 
 // Write Javascript code!
@@ -48,12 +49,21 @@ const $ = require("jquery");
 const THREE = require("three");
 const quad = require("./quad.js");
 
+const FUNS = 5;
 const DEPTH = 10;
+const GRIDX = 5;
 // const X = "vUV.x";
 // const Y = "vUV.y";
-const X = "gl_FragCoord.x / " + fstr(window.innerWidth);
-const Y = "gl_FragCoord.y / " + fstr(window.innerHeight);
-const width = Math.max(100, window.innerWidth / 4);
+const Xdef = "gl_FragCoord.x / " + fstr(window.innerWidth);
+const Ydef = "gl_FragCoord.y / " + fstr(window.innerHeight);
+
+prelude += '#define X ' + Xdef + '\n';
+prelude += '#define Y ' + Ydef + '\n';
+
+const X = 'X';
+const Y = 'Y';
+
+const width = Math.max(100, window.innerWidth / GRIDX);
 const height = width;
 //const height = Math.max(100, window.innerHeight / 10);
 // const width = Math.max(100, window.innerWidth / 1);
@@ -116,7 +126,12 @@ for (let x = 0.0; x <= window.innerWidth; x += width) {
       ") / " +
       fstr(height / window.innerHeight) +
       ")";
-    const f1 = randFun(nx, ny);
+    const flist = [];
+    for (let i = 0; i < GRIDX; i++) {
+      flist.push(randFun(nx, ny));
+    }
+    const f1 = flist.reduce((a, b) => randPattern(a, b));
+
     const f2 =
       "((" +
       cond +
@@ -155,7 +170,7 @@ const combo = fs.map(x => x.rf).reduce(reducer);
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 // const prebody = s + " + vec3(" + combo + ")";
-s += "    s += vec3(" + combo + ");\n";
+// s += "    s += vec3(" + combo + ");\n";
 const prebody = s;
 // const body = prebody + "\n;gl_FragColor = vec4(r, g, b, a);";
 // const body = prebody + "\n;gl_FragColor = vec4(r, g, b, a);";
@@ -230,16 +245,17 @@ function randPattern(A, B) {
 
 function randFun(x, y) {
   // const args = [x, y, "time", Math.random().toFixed(6)];
-  const args = [x, y, "10.0", "0.1", "time"];
-  let s = "";
+  const t = "time";
+  const primeArgs = [x, x, x, x, x, y, y, y, y, y, t, t, t, "10.0", "0.1"];
+  const args = primeArgs.slice();
+  let s = t;
   let longest = "";
   let ssum = [];
   for (let i = 0; i < DEPTH; i++) {
-    const ar1 = Math.floor(Math.random() * args.length);
-    // const ar1 = args.length - 1;
+    const ar1 = Math.floor(Math.random() * primeArgs.length);
     const ar2 = Math.floor(Math.random() * args.length);
-    //s = pats[pr].replace("A", args[ar1]).replace("B", args[ar2]);
-    s = randPattern(args[ar1], args[ar2]);
+    //s = randPattern(primeArgs[ar1], args[ar2]);
+    s = randPattern(primeArgs[ar1], s);
     args.push(s);
     if (s.length > longest.length) {
       longest = s;
@@ -247,12 +263,13 @@ function randFun(x, y) {
     ssum.push(s);
   }
   // const reducer = (accumulator, currentValue) => "(" + accumulator + ", " + currentValue + ")";
-  const reducer = (accumulator, currentValue) =>
-    "(" + accumulator + " + " + currentValue + ")";
-  const clamper = longest => "clamp(" + longest + " * 2.0 - 1.0, -1.0, 1.0)"; // + fstr(args.length);
+  const reducer = (accumulator, currentValue) => "(" + accumulator + " + " + currentValue + ")";
+  //const reducer = (a, b) => randPattern(a, b);
+  const clamper = longest => "exp(clamp(" + longest + " * 2.0 - 1.0, -1.0, 1.0))"; // + fstr(args.length);
   return "log(abs(" + ssum.map(clamper).reduce(reducer) + "))";
+  //return "log(abs(" + ssum.map(clamper).reduce(reducer) + "))";
   // return "clamp(" + longest + ", 0.0, 1.0)";
-  // return longest;
+  return longest;
   // return ssum;
 }
 
