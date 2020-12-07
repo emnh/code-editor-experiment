@@ -36,17 +36,21 @@ function randFun() {
   ];
   const args = ["uv.x", "uv.y", Math.random().toFixed(6)];
   let s = "";
-  for (let i = 0; i < 10; i++) {
+  let longest = "";
+  for (let i = 0; i < 20; i++) {
     const pr = Math.floor(Math.random() * pats.length);
     const ar1 =
-      Math.random() < 1.5
+      Math.random() < 0.0
         ? args.length - 1
         : Math.floor(Math.random() * args.length);
     const ar2 = Math.floor(Math.random() * args.length);
     s = pats[pr].replace("A", args[ar1]).replace("B", args[ar2]);
     args.push(s);
+    if (s.length > longest.length) {
+      longest = s;
+    }
   }
-  return s;
+  return longest;
 }
 
 function randGLSL() {
