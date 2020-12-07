@@ -129,6 +129,7 @@ for (let x = 0.0; x <= window.innerWidth; x += width) {
       ", " +
       b +
       ") : vec3(0.0))";
+    
     // const f2 =
     //   "((" + cond + ") ? vec3(" + nx + ", " + ny + ", 0.0) : vec3(0.0))";
 
