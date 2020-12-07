@@ -147,7 +147,7 @@ let s = "vec3 s = vec3(0.0);\n";
 for (let i = 0; i < fs.length; i++) {
   // s += fs[i] + " + ";
   const d = fs[i];
-  s += "    s += " + d.f + ";";
+  s += "    s += " + d.f + ";\n";
 }
 
 const reducer = (a, b) => randPattern(a, b);
