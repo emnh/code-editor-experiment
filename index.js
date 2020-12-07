@@ -8,7 +8,7 @@ float distanceToMandelbrot( in vec2 c ) {
     if( 256.0*c2*c2 - 96.0*c2 + 32.0*c.x - 3.0 < 0.0 ) return 0.0;
     // skip computation inside M2 - http://iquilezles.org/www/articles/mset_2bulb/mset2bulb.htm
     if( 16.0*(c2+2.0*c.x+1.0) - 1.0 < 0.0 ) return 0.0;
-    
+
 
     // iterate
     float di =  1.0;
@@ -21,18 +21,18 @@ float distanceToMandelbrot( in vec2 c ) {
 
 		// Z' -> 2·Z·Z' + 1
         dz = 2.0*vec2(z.x*dz.x-z.y*dz.y, z.x*dz.y + z.y*dz.x) + vec2(1.0,0.0);
-			
-        // Z -> Z² + c			
+
+        // Z -> Z² + c
         z = vec2( z.x*z.x - z.y*z.y, 2.0*z.x*z.y ) + c;
-			
+
         m2 = dot(z,z);
     }
 
-    // distance	
+    // distance
 	// d(c) = |Z|·log|Z|/|Z'|
 	float d = 0.5*sqrt(dot(z,z)/dot(dz,dz))*log(dot(z,z));
     if( di>0.5 ) d=0.0;
-	
+
     return d;
 }
 `;
@@ -144,6 +144,7 @@ for (let i = 0; i < fs.length; i++) {
   s += "    s += " + fs[i] + ";";
 }
 
+const reducer = (a, b) => randPattern(nx, ny, a, b);
 const combo = fs.reduce(reducer);
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
@@ -254,9 +255,9 @@ function randGLSL() {
 function addCanvas(body) {
   const vert = `
   precision mediump float;
-  
+
   varying vec2 vUV;
-  
+
   void main() {
     vUV = uv;
     gl_Position = vec4(position, 1.0);
@@ -266,9 +267,9 @@ function addCanvas(body) {
   const frag =
     `
   precision mediump float;
-  
+
   uniform float time;
-  
+
   varying vec2 vUV;
 
   ` +
