@@ -15,6 +15,10 @@ for (let i = 0; i < 12; i++) {
 
 function randFun() {
   const pats = [
+    "exp2(A)",
+    "log2(A)",
+    "exp(A)",
+    "log(A)",
     "sin(A)",
     "cos(A)",
     "tan(A)",
@@ -25,6 +29,10 @@ function randFun() {
     "acos(A)",
     "mod(A, B)",
     "mod(B, A)",
+    "min(A, B)",
+    "min(B, A)",
+    "max(A, B)",
+    "max(B, A)",
     "A * B",
     "A + B",
     "A / B",
@@ -37,7 +45,7 @@ function randFun() {
   const args = ["uv.x", "uv.y", Math.random().toFixed(6)];
   let s = "";
   let longest = "";
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 100; i++) {
     const pr = Math.floor(Math.random() * pats.length);
     const ar1 =
       Math.random() < 0.0
