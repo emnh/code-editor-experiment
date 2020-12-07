@@ -48,7 +48,7 @@ const $ = require("jquery");
 const THREE = require("three");
 const quad = require("./quad.js");
 
-const DEPTH = 20;
+const DEPTH = 10;
 // const X = "vUV.x";
 // const Y = "vUV.y";
 const X = "gl_FragCoord.x / " + fstr(window.innerWidth);
@@ -129,7 +129,7 @@ for (let x = 0.0; x <= window.innerWidth; x += width) {
       ", " +
       b +
       ") : vec3(0.0))";
-    
+
     // const f2 =
     //   "((" + cond + ") ? vec3(" + nx + ", " + ny + ", 0.0) : vec3(0.0))";
 
@@ -143,6 +143,8 @@ for (let i = 0; i < fs.length; i++) {
   // s += fs[i] + " + ";
   s += "    s += " + fs[i] + ";";
 }
+
+const combo = fs.reduce(reducer);
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 const prebody = s;
