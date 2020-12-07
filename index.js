@@ -12,7 +12,7 @@ const $ = require("jquery");
 const THREE = require("three");
 const quad = require("./quad.js");
 
-const DEPTH = 1;
+const DEPTH = 100;
 const X = "vUV.x";
 const Y = "vUV.y";
 const width = Math.max(100, window.innerWidth / 10);
@@ -62,10 +62,9 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
     const r = Math.random();
     const g = Math.random();
     const b = Math.random();
-    const f2 =
-      "((" + cond + ") ? vec3(" + r + ", " + g + ", " + b + ") : vec3(0.0))";
+    const f2 = "((" + cond + ") ? vec3(" + f1 + ") : vec3(0.0))";
     // const f2 =
-    //   "r = " + r + ";" + "g = " + g + ";" + "b = " + b + ";" + "a = 1.0;";
+    //   "((" + cond + ") ? vec3(" + r + ", " + g + ", " + b + ") : vec3(0.0))";
     fs.push(f2);
   }
 }
