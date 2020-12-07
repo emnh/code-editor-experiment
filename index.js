@@ -138,7 +138,8 @@ for (let x = 0.0; x <= window.innerWidth; x += width) {
     fs.push({
       nx: nx,
       ny: ny,
-      f: f2
+      f: f2,
+      rf: f1
     });
   }
 }
@@ -149,7 +150,7 @@ for (let i = 0; i < fs.length; i++) {
   s += "    s += " + d.f + ";";
 }
 
-const reducer = (a, b) => randPattern(a.f, b.f);
+const reducer = (a, b) => randPattern(a.rf, b.rf);
 const combo = fs.reduce(reducer);
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
