@@ -21,8 +21,8 @@ for (let x = 0; x < window.innerWidth; x += width) {
   for (let y = 0; y < window.innerHeight; y += height) {
     const z = 0.0;
     const pos = new THREE.Vector3(
-      2 * x / window.innerWidth,
-      2 * y / window.innerHeight,
+      (2 * x) / window.innerWidth,
+      (2 * y) / window.innerHeight,
       z
     );
     const canvas = addCanvas(randGLSL(), pos);
@@ -79,11 +79,11 @@ function randFun() {
     "distance(vec2(B, A), vec2(0.5))",
     "A * B",
     "A + B",
-    "A / B",
+    "A / max(B, 0.00001)",
     "A - B",
     "B * A",
     "B + A",
-    "B / A",
+    "B / max(A, 0.00001)",
     "B - A"
   ];
   const args = ["vUV.x", "vUV.y", "time", Math.random().toFixed(6)];
@@ -104,6 +104,7 @@ function randFun() {
 
 function randGLSL() {
   const f = randFun();
+  console.log(f);
   return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 }
 
