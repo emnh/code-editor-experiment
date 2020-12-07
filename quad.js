@@ -10,13 +10,23 @@ let uniforms;
 //init();
 //animate();
 
-function init(vert, frag) {
+function init() {
   const container = document.getElementById("app");
 
   camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
   scene = new THREE.Scene();
 
+  renderer = new THREE.WebGLRenderer();
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  onWindowResize();
+
+  window.addEventListener("resize", onWindowResize, false);
+}
+
+function initQuad(vert, frag) {
   const geometry = new THREE.PlaneBufferGeometry(2, 2);
 
   uniforms = {
@@ -32,13 +42,7 @@ function init(vert, frag) {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
-  renderer = new THREE.WebGLRenderer();
-  renderer.setPixelRatio(window.devicePixelRatio);
-  container.appendChild(renderer.domElement);
-
-  onWindowResize();
-
-  window.addEventListener("resize", onWindowResize, false);
+  return mesh;
 }
 
 function onWindowResize() {
@@ -58,5 +62,6 @@ function animate() {
 
 module.exports = {
   init,
+  initQuad,
   animate
 };

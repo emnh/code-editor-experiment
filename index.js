@@ -92,20 +92,17 @@ function randGLSL() {
   return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 }
 
+quad.init();
+
 function addCanvas(body) {
   const vert = `
   precision mediump float;
   
-  attribute vec2 position;
-  varying vec2 uv;
+  varying vec2 vUV;
   
   void main() {
-    uv = position;
-  
-    vec2 lo = vec2(-0.5);
-    vec2 hi = vec2(+0.5);
-  
-    gl_Position = vec4(mix(lo, hi, position), 1.0, 1.0);
+    vUV = uv;
+    gl_Position = vec4(position, 1.0);
   }
   `;
 
@@ -113,9 +110,9 @@ function addCanvas(body) {
     `
   precision mediump float;
   
-  uniform float t;
+  uniform float time;
   
-  varying vec2 uv;
+  varying vec2 vUV;
   
   void main() {
     gl_FragColor = ` +
@@ -124,5 +121,5 @@ function addCanvas(body) {
   }
   `;
 
-  quad.init(vert, frag);
+  return quad.initQuad(vert, frag);
 }
