@@ -14,23 +14,33 @@ for (let i = 0; i < 12; i++) {
 }
 
 function randFun() {
-  const r = Math.floor(Math.random() * 10);
-  switch (r) {
-    case 0:
-      return "cos";
-    case 1:
-      return "tan";
-    case 2:
-      return "atan";
-    default:
-      return "sin";
+  const pats = [
+    "sin(A)",
+    "cos(A)",
+    "tan(A)",
+    "A * B",
+    "A + B",
+    "A / B",
+    "A - B"
+  ];
+  const args = ["uv.x", "uv.y", Math.random().toFixed(6)];
+  let s = "";
+  for (let i = 0; i < 10; i++) {
+    const pr = Math.floor(Math.random() * pats.length);
+    const ar1 =
+      Math.random() < 1.5
+        ? args.length - 1
+        : Math.floor(Math.random() * args.length);
+    const ar2 = Math.floor(Math.random() * args.length);
+    s = pats[pr].replace("A", args[ar1]).replace("B", args[ar2]);
+    args.push(s);
   }
-  return "sin";
+  return s;
 }
 
 function randGLSL() {
   const f = randFun();
-  return "vec4(uv * 0.5 + 0.5, " + f + "(uv.x), 1.0)";
+  return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 }
 
 function addCanvas(body) {
