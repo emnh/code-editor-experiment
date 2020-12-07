@@ -135,16 +135,21 @@ for (let x = 0.0; x <= window.innerWidth; x += width) {
 
     // const f2 =
     //   "((" + cond + ") ? vec3(" + r + ", " + g + ", " + b + ") : vec3(0.0))";
-    fs.push(f2);
+    fs.push({
+      nx: nx,
+      ny: ny,
+      f: f2
+    });
   }
 }
 let s = "vec3 s = vec3(0.0);\n";
 for (let i = 0; i < fs.length; i++) {
   // s += fs[i] + " + ";
-  s += "    s += " + fs[i] + ";";
+  const d = fs[i];
+  s += "    s += " + d.f + ";";
 }
 
-const reducer = (a, b) => randPattern(nx, ny, a, b);
+const reducer = (a, b) => randPattern(a.f, b.f);
 const combo = fs.reduce(reducer);
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
@@ -169,7 +174,7 @@ $("canvas")
 // .css("width", "200px")
 // .css("height", "200px");
 
-function randPattern(x, y, A, B) {
+function randPattern(A, B) {
   const pats = [
     "exp2(A)",
     "log2(abs(A))",
@@ -229,7 +234,7 @@ function randFun(x, y) {
     // const ar1 = args.length - 1;
     const ar2 = Math.floor(Math.random() * args.length);
     //s = pats[pr].replace("A", args[ar1]).replace("B", args[ar2]);
-    s = randPattern(x, y, args[ar1], args[ar2]);
+    s = randPattern(args[ar1], args[ar2]);
     args.push(s);
     if (s.length > longest.length) {
       longest = s;
