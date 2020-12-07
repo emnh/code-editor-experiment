@@ -1,5 +1,5 @@
 // Import stylesheets
-import "./style.css";
+// import "./style.css";
 
 const prelude = `
 float distanceToMandelbrot( in vec2 c ) {
@@ -96,7 +96,7 @@ for (let x = 0.0; x <= window.innerWidth; x += width) {
       fstr(pos.y + height / window.innerHeight) +
       " && " +
       "true";
-    console.log(ppos.x, pos.x, ppos.y, pos.y);
+    //console.log(ppos.x, pos.x, ppos.y, pos.y);
     const r = Math.random();
     const g = Math.random();
     const b = Math.random();

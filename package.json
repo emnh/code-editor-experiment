@@ -1,12 +1,30 @@
 {
-  "name": "js",
-  "version": "0.0.0",
+  "name": "glsl-generator-experiment",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "gl-big-quad": "1.0.0",
     "gl-shader": "4.2.1",
     "jquery": "3.5.1",
     "raf": "3.4.1",
-    "three": "^0.123.0"
-  }
+    "three": "^0.123.0",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "description": "[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/code-editor-experiment)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --hot",
+    "webpack": "webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emnh/code-editor-experiment.git"
+  },
+  "author": "Eivind Magnus Hvidevold <hvidevold@gmail.com>",
+  "license": "GPL-2.0-only",
+  "bugs": {
+    "url": "https://github.com/emnh/code-editor-experiment/issues"
+  },
+  "homepage": "https://github.com/emnh/code-editor-experiment#readme"
 }
