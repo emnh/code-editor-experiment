@@ -18,10 +18,21 @@ function randFun() {
     "sin(A)",
     "cos(A)",
     "tan(A)",
+    "atan(A, B)",
+    "atan(B, A)",
+    "atan(A)",
+    "asin(A)",
+    "acos(A)",
+    "mod(A, B)",
+    "mod(B, A)",
     "A * B",
     "A + B",
     "A / B",
-    "A - B"
+    "A - B",
+    "B * A",
+    "B + A",
+    "B / A",
+    "B - A"
   ];
   const args = ["uv.x", "uv.y", Math.random().toFixed(6)];
   let s = "";
