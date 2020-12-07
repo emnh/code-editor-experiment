@@ -28,8 +28,8 @@ function fstr(x) {
 }
 
 const fs = [];
-for (let x = 0.0; x < window.innerWidth; x += width) {
-  for (let y = 0.0; y < window.innerHeight; y += height) {
+for (let x = 0.0; x <= window.innerWidth; x += width) {
+  for (let y = 0.0; y <= window.innerHeight; y += height) {
     const z = 0.0;
     const pos = new THREE.Vector3(
       (1 * x) / window.innerWidth,
@@ -44,19 +44,19 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
     const cond =
       X +
       " > " +
-      fstr(ppos.x) +
-      " && " +
-      Y +
-      " > " +
-      fstr(ppos.y) +
-      " && " +
-      X +
-      " < " +
       fstr(pos.x) +
       " && " +
       Y +
-      " < " +
+      " > " +
       fstr(pos.y) +
+      " && " +
+      X +
+      " < " +
+      fstr(pos.x + width / window.innerWidth) +
+      " && " +
+      Y +
+      " < " +
+      fstr(pos.y + height / window.innerHeight) +
       " && " +
       "true";
     console.log(ppos.x, pos.x, ppos.y, pos.y);
@@ -67,7 +67,7 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
       "((" +
       X +
       " - " +
-      fstr(ppos.x) +
+      fstr(pos.x) +
       ") / " +
       fstr(width / window.innerWidth) +
       ")";
@@ -75,7 +75,7 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
       "((" +
       Y +
       " - " +
-      fstr(ppos.y) +
+      fstr(pos.y) +
       ") / " +
       fstr(height / window.innerHeight) +
       ")";
