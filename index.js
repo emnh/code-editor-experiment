@@ -190,10 +190,11 @@ function randFun(x, y) {
     }
     ssum.push(s);
   }
-  const reducer = (accumulator, currentValue) =>
-    "max(" + accumulator + ", " + currentValue + ")";
-  const clamper = longest => "clamp(" + longest + ", 0.0, 1.0)";
-  return ssum.filter(clamper).reduce(reducer);
+  // const reducer = (accumulator, currentValue) => "(" + accumulator + ", " + currentValue + ")";
+  const reducer = (accumulator, currentValue) => "(" + accumulator + " + " + currentValue + ")";
+  const clamper = longest =>
+    "clamp(" + longest + " * 2.0 - 1.0, -1.0, 1.0)"; // + fstr(args.length);
+  return "log(abs(" + (ssum.map(clamper).reduce(reducer)) + "))";
   // return "clamp(" + longest + ", 0.0, 1.0)";
   // return longest;
   // return ssum;
