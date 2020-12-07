@@ -17,6 +17,7 @@ quad.init();
 const width = 200;
 const height = 200;
 
+const fs = [];
 for (let x = 0; x < window.innerWidth; x += width) {
   for (let y = 0; y < window.innerHeight; y += height) {
     const z = 0.0;
@@ -25,9 +26,44 @@ for (let x = 0; x < window.innerWidth; x += width) {
       (2 * y) / window.innerHeight,
       z
     );
-    const canvas = addCanvas(randGLSL(), pos);
+    const ppos = new THREE.Vector3(
+      (2 * (x - width)) / window.innerWidth,
+      (2 * (y - height)) / window.innerHeight,
+      z
+    );
+    const f1 = randFun();
+    const cond =
+      "vUV.x > " +
+      ppos.x +
+      " && " +
+      "vUV.y > " +
+      ppos.y +
+      " && " +
+      "vUV.x < " +
+      pos.x +
+      " && " +
+      "vUV.y < " +
+      pos.y +
+      " && " +
+      "";
+    console.log(ppos.x, pos.x, ppos.y, pos.y);
+    const r = Math.random();
+    const g = Math.random();
+    const b = Math.random();
+    const f2 = "(" + cond + " ? vec3(" + r + ", " + g + ", " + b + "): 0.0)";
+    fs.push(f2);
   }
 }
+let s = "";
+for (let i = 0; i < fs.length; i++) {
+  s += fs[i] + " + ";
+}
+s += "0.0;";
+console.log(s);
+// return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
+const prebody = s;
+const body = prebody + "\n;vec4(r, g, b, a);";
+const canvas = addCanvas(randGLSL());
 quad.animate();
 
 $("#app")
@@ -38,9 +74,9 @@ $("body")
   .css("margin", "0px");
 $("canvas")
   .css("padding", "0px")
-  .css("margin", "0px")
-  .css("width", "200px")
-  .css("height", "200px");
+  .css("margin", "0px");
+// .css("width", "200px")
+// .css("height", "200px");
 
 function randFun() {
   const pats = [
@@ -108,7 +144,7 @@ function randGLSL() {
   return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 }
 
-function addCanvas(body, pos) {
+function addCanvas(body) {
   const vert = `
   precision mediump float;
   
@@ -135,5 +171,5 @@ function addCanvas(body, pos) {
   }
   `;
 
-  return quad.initQuad(vert, frag, pos);
+  return quad.initQuad(vert, frag);
 }

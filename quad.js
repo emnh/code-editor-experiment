@@ -27,7 +27,7 @@ function init() {
   window.addEventListener("resize", onWindowResize, false);
 }
 
-function initQuad(vert, frag, pos) {
+function initQuad(vert, frag) {
   const geometry = new THREE.PlaneBufferGeometry(2, 2);
 
   const material = new THREE.ShaderMaterial({
@@ -48,7 +48,7 @@ function initQuad(vert, frag, pos) {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
-  mesh.position.set(pos.x, pos.y, pos.z);
+  // mesh.position.set(pos.x, pos.y, pos.z);
 
   return mesh;
 }
