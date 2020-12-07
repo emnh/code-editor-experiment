@@ -174,7 +174,7 @@ function randFun(x, y) {
     "B - A"
   ];
   // const args = [x, y, "time", Math.random().toFixed(6)];
-  const args = [x, y, "time"];
+  const args = [x, y, "10.0", "time"];
   let s = "";
   let longest = "";
   let ssum = [];
@@ -191,10 +191,10 @@ function randFun(x, y) {
     ssum.push(s);
   }
   // const reducer = (accumulator, currentValue) => "(" + accumulator + ", " + currentValue + ")";
-  const reducer = (accumulator, currentValue) => "(" + accumulator + " + " + currentValue + ")";
-  const clamper = longest =>
-    "clamp(" + longest + " * 2.0 - 1.0, -1.0, 1.0)"; // + fstr(args.length);
-  return "log(abs(" + (ssum.map(clamper).reduce(reducer)) + "))";
+  const reducer = (accumulator, currentValue) =>
+    "(" + accumulator + " + " + currentValue + ")";
+  const clamper = longest => "clamp(" + longest + " * 2.0 - 1.0, -1.0, 1.0)"; // + fstr(args.length);
+  return "log(abs(" + ssum.map(clamper).reduce(reducer) + "))";
   // return "clamp(" + longest + ", 0.0, 1.0)";
   // return longest;
   // return ssum;
