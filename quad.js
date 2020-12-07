@@ -45,7 +45,7 @@ function initQuad(vert, frag, pos) {
     )
   });
 
-  const mesh = new THREE.Mesh(geometry, material2);
+  const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
   mesh.position.set(pos.x, pos.y, pos.z);
