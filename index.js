@@ -221,7 +221,9 @@ function randPattern(A, B) {
     "distanceToMandelbrot(vec2(A, B))"
   ];
   const pr = Math.floor(Math.random() * pats.length);
-  return pats[pr].replace("A", A).replace("B", B);
+  return pats[pr]
+    .replace("A", A).replace("B", B)
+    .replace("A", A).replace("B", B);
 }
 
 function randFun(x, y) {
