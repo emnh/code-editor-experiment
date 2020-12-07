@@ -129,14 +129,14 @@ $("canvas")
 // .css("width", "200px")
 // .css("height", "200px");
 
-function randFun(x, y) {
+function randPattern(x, y) {
   const pats = [
     "exp2(A)",
-    "log2(A)",
+    "log2(abs(A))",
     "radians(A)",
     "degrees(A)",
     "abs(A)",
-    "sqrt(A)",
+    "sqrt(abs(A))",
     "inversesqrt(A)",
     "fract(A)",
     "sign(A)",
@@ -173,13 +173,17 @@ function randFun(x, y) {
     "B / max(A, 0.00001)",
     "B - A"
   ];
+  const pr = Math.floor(Math.random() * pats.length);
+  return pats[pr].replace("A", A).replace("B", B);
+}
+
+function randFun(x, y) {
   // const args = [x, y, "time", Math.random().toFixed(6)];
-  const args = [x, y, "10.0", "time"];
+  const args = [x, y, "10.0", "0.1", "time"];
   let s = "";
   let longest = "";
   let ssum = [];
   for (let i = 0; i < DEPTH; i++) {
-    const pr = Math.floor(Math.random() * pats.length);
     const ar1 = Math.floor(Math.random() * args.length);
     // const ar1 = args.length - 1;
     const ar2 = Math.floor(Math.random() * args.length);
