@@ -22,6 +22,10 @@ function randFun() {
     "abs(A)",
     "sqrt(A)",
     "inversesqrt(A)",
+    "fract(A)",
+    "sign(A)",
+    "floor(A)",
+    "ceil(A)",
     "exp(A)",
     "log(A)",
     "sin(A)",
@@ -40,6 +44,10 @@ function randFun() {
     "max(B, A)",
     "pow(A, B)",
     "pow(B, A)",
+    "length(vec2(A, B))",
+    "length(vec2(B, A))",
+    "distance(vec2(A, B), vec2(0.5))",
+    "distance(vec2(B, A), vec2(0.5))",
     "A * B",
     "A + B",
     "A / B",
@@ -54,10 +62,7 @@ function randFun() {
   let longest = "";
   for (let i = 0; i < 100; i++) {
     const pr = Math.floor(Math.random() * pats.length);
-    const ar1 =
-      Math.random() < 0.0
-        ? args.length - 1
-        : Math.floor(Math.random() * args.length);
+    const ar1 = Math.floor(Math.random() * args.length);
     const ar2 = Math.floor(Math.random() * args.length);
     s = pats[pr].replace("A", args[ar1]).replace("B", args[ar2]);
     args.push(s);
@@ -65,7 +70,7 @@ function randFun() {
       longest = s;
     }
   }
-  return longest;
+  return "clamp(" + longest + ", 0.0, 1.0)";
 }
 
 function randGLSL() {
