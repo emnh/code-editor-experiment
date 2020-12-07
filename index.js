@@ -6,9 +6,10 @@ const appDiv = document.getElementById("app");
 // appDiv.innerHTML = `<h1>JS Starter</h1>`;
 
 const $ = require("jquery");
-const Quad = require("gl-big-quad");
-const Shader = require("gl-shader");
-const raf = require("raf");
+//const Quad = require("gl-big-quad");
+//const Shader = require("gl-shader");
+//const raf = require("raf");
+const quad = require("./quad.js");
 
 for (let i = 0; i < 12; i++) {
   const canvas = addCanvas(randGLSL());
@@ -92,13 +93,6 @@ function randGLSL() {
 }
 
 function addCanvas(body) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 200;
-  canvas.height = 200;
-  appDiv.append(canvas);
-  const gl = canvas.getContext("webgl");
-  const quad = Quad(gl);
-
   const vert = `
   precision mediump float;
   
@@ -130,17 +124,5 @@ function addCanvas(body) {
   }
   `;
 
-  const shader = Shader(gl, vert, frag);
-
-  render();
-  function render() {
-    shader.bind();
-    shader.uniforms.t += 0.01;
-    quad.bind();
-    quad.draw();
-
-    // Render again in the next frame
-    raf(render);
-  }
-  return canvas;
+  quad.init(vert, frag);
 }
