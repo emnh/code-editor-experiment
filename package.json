@@ -2,5 +2,12 @@
   "name": "js",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "d3": "6.3.0",
+    "gl-big-quad": "^1.0.0",
+    "gl-shader": "4.2.1",
+    "raf": "3.4.1",
+    "three": "0.123.0",
+    "three-screen-quad": "0.2.1"
+  }
 }
