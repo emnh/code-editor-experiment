@@ -12,37 +12,42 @@ const $ = require("jquery");
 const THREE = require("three");
 const quad = require("./quad.js");
 
-quad.init();
-
-const width = 200;
-const height = 200;
+const DEPTH = 10;
+const X = "vUV.x";
+const Y = "vUV.y";
+const width = Math.max(100, window.innerWidth / 10);
+const height = Math.max(100, window.innerHeight / 10);
 
 const fs = [];
 for (let x = 0; x < window.innerWidth; x += width) {
   for (let y = 0; y < window.innerHeight; y += height) {
     const z = 0.0;
     const pos = new THREE.Vector3(
-      (2 * x) / window.innerWidth,
-      (2 * y) / window.innerHeight,
+      (1 * x) / window.innerWidth,
+      (1 * y) / window.innerHeight,
       z
     );
     const ppos = new THREE.Vector3(
-      (2 * (x - width)) / window.innerWidth,
-      (2 * (y - height)) / window.innerHeight,
+      (1 * (x - width)) / window.innerWidth,
+      (1 * (y - height)) / window.innerHeight,
       z
     );
     const f1 = randFun();
     const cond =
-      "vUV.x > " +
+      X +
+      " > " +
       ppos.x +
       " && " +
-      "vUV.y > " +
+      Y +
+      " > " +
       ppos.y +
       " && " +
-      "vUV.x < " +
+      X +
+      " < " +
       pos.x +
       " && " +
-      "vUV.y < " +
+      Y +
+      " < " +
       pos.y +
       " && " +
       "";
@@ -51,18 +56,24 @@ for (let x = 0; x < window.innerWidth; x += width) {
     const g = Math.random();
     const b = Math.random();
     const f2 = "(" + cond + " ? vec3(" + r + ", " + g + ", " + b + "): 0.0)";
+    // const f2 =
+    //   "r = " + r + ";" + "g = " + g + ";" + "b = " + b + ";" + "a = 1.0;";
     fs.push(f2);
   }
 }
-let s = "";
+let s = "s = vec3(0.0);\n";
 for (let i = 0; i < fs.length; i++) {
-  s += fs[i] + " + ";
+  // s += fs[i] + " + ";
+  s += "s += " + fs[i];
 }
-s += "0.0;";
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 const prebody = s;
-const body = prebody + "\n;vec4(r, g, b, a);";
+// const body = prebody + "\n;gl_FragColor = vec4(r, g, b, a);";
+// const body = prebody + "\n;gl_FragColor = vec4(r, g, b, a);";
+const body = prebody + "\n;gl_FragColor = vec4(s, 1.0);";
+
+quad.init();
 const canvas = addCanvas(randGLSL());
 quad.animate();
 
@@ -125,7 +136,7 @@ function randFun() {
   const args = ["vUV.x", "vUV.y", "time", Math.random().toFixed(6)];
   let s = "";
   let longest = "";
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < DEPTH; i++) {
     const pr = Math.floor(Math.random() * pats.length);
     const ar1 = Math.floor(Math.random() * args.length);
     const ar2 = Math.floor(Math.random() * args.length);
@@ -165,7 +176,7 @@ function addCanvas(body) {
   varying vec2 vUV;
   
   void main() {
-    gl_FragColor = ` +
+    ` +
     body +
     `;
   }
