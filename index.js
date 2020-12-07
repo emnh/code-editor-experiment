@@ -12,7 +12,7 @@ const $ = require("jquery");
 const THREE = require("three");
 const quad = require("./quad.js");
 
-const DEPTH = 10;
+const DEPTH = 20;
 // const X = "vUV.x";
 // const Y = "vUV.y";
 const X = "gl_FragCoord.x / " + fstr(window.innerWidth);
@@ -81,7 +81,18 @@ for (let x = 0.0; x <= window.innerWidth; x += width) {
       fstr(height / window.innerHeight) +
       ")";
     const f1 = randFun(nx, ny);
-    const f2 = "((" + cond + ") ? vec3(" + f1 + ") * vec3(" + r + ", " + g + ", " + b + ") : vec3(0.0))";
+    const f2 =
+      "((" +
+      cond +
+      ") ? vec3(" +
+      f1 +
+      ") * vec3(" +
+      r +
+      ", " +
+      g +
+      ", " +
+      b +
+      ") : vec3(0.0))";
     // const f2 =
     //   "((" + cond + ") ? vec3(" + nx + ", " + ny + ", 0.0) : vec3(0.0))";
 
@@ -162,20 +173,28 @@ function randFun(x, y) {
     "B / max(A, 0.00001)",
     "B - A"
   ];
-  const args = [x, y, "time", Math.random().toFixed(6)];
+  // const args = [x, y, "time", Math.random().toFixed(6)];
+  const args = [x, y, "time"];
   let s = "";
   let longest = "";
+  let ssum = [];
   for (let i = 0; i < DEPTH; i++) {
     const pr = Math.floor(Math.random() * pats.length);
     const ar1 = Math.floor(Math.random() * args.length);
+    // const ar1 = args.length - 1;
     const ar2 = Math.floor(Math.random() * args.length);
     s = pats[pr].replace("A", args[ar1]).replace("B", args[ar2]);
     args.push(s);
     if (s.length > longest.length) {
       longest = s;
     }
+    ssum.push(s);
   }
-  return "clamp(" + longest + ", 0.0, 1.0)";
+  const reducer = (accumulator, currentValue) => "max(" + accumulator + ", " + currentValue + ")";
+  return ssum.reduce(reducer, 0.0);
+  // return "clamp(" + longest + ", 0.0, 1.0)";
+  // return longest;
+  // return ssum;
 }
 
 function randGLSL() {
