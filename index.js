@@ -150,11 +150,11 @@ for (let i = 0; i < fs.length; i++) {
   s += "    s += " + d.f + ";";
 }
 
-const reducer = (a, b) => randPattern(a.rf, b.rf);
-const combo = fs.reduce(reducer);
+const reducer = (a, b) => randPattern(a, b);
+const combo = fs.map(x => x.f).reduce(reducer);
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
-const prebody = s;
+const prebody = s + " + vec3(" + combo + ")";
 // const body = prebody + "\n;gl_FragColor = vec4(r, g, b, a);";
 // const body = prebody + "\n;gl_FragColor = vec4(r, g, b, a);";
 const body = prebody + "\n gl_FragColor = vec4(s, 1.0);";
