@@ -29,7 +29,8 @@ function fstr(x) {
 
 const fs = [];
 for (let x = 0.0; x <= window.innerWidth; x += width) {
-  for (let y = 0.0; y <= window.innerHeight; y += height) {
+  // TODO: + 2 * height is temporarily until fix is known
+  for (let y = 0.0; y <= window.innerHeight + 2 * height; y += height) {
     const z = 0.0;
     const pos = new THREE.Vector3(
       (1 * x) / window.innerWidth,
