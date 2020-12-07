@@ -15,18 +15,19 @@ const quad = require("./quad.js");
 const DEPTH = 1;
 const X = "vUV.x";
 const Y = "vUV.y";
-// const width = Math.max(100, window.innerWidth / 10);
-// const height = Math.max(100, window.innerHeight / 10);
-const width = Math.max(100, window.innerWidth / 1);
-const height = Math.max(100, window.innerHeight / 1);
+const width = Math.max(100, window.innerWidth / 10);
+const height = width;
+//const height = Math.max(100, window.innerHeight / 10);
+// const width = Math.max(100, window.innerWidth / 1);
+// const height = Math.max(100, window.innerHeight / 1);
 
 function fstr(x) {
   return x.toFixed(6);
 }
 
 const fs = [];
-for (let x = 0; x < window.innerWidth; x += width) {
-  for (let y = 0; y < window.innerHeight; y += height) {
+for (let x = 0.0; x < window.innerWidth; x += width) {
+  for (let y = 0.0; y < window.innerHeight; y += height) {
     const z = 0.0;
     const pos = new THREE.Vector3(
       (1 * x) / window.innerWidth,
