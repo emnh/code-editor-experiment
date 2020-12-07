@@ -151,7 +151,7 @@ for (let i = 0; i < fs.length; i++) {
 }
 
 const reducer = (a, b) => randPattern(a, b);
-const combo = fs.map(x => x.f).reduce(reducer);
+const combo = fs.map(x => x.rf).reduce(reducer);
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 const prebody = s + " + vec3(" + combo + ")";
