@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "gl-big-quad": "^1.0.0",
-    "gl-shader": "^4.2.1",
-    "raf": "^3.4.1"
+    "gl-big-quad": "1.0.0",
+    "gl-shader": "4.2.1",
+    "jquery": "^3.5.1",
+    "raf": "3.4.1"
   }
 }

@@ -5,6 +5,7 @@ import "./style.css";
 const appDiv = document.getElementById("app");
 // appDiv.innerHTML = `<h1>JS Starter</h1>`;
 
+const $ = require("jquery");
 const Quad = require("gl-big-quad");
 const Shader = require("gl-shader");
 const raf = require("raf");
@@ -12,6 +13,18 @@ const raf = require("raf");
 for (let i = 0; i < 12; i++) {
   const canvas = addCanvas(randGLSL());
 }
+
+$("#app")
+  .css("padding", "0px")
+  .css("margin", "0px");
+$("body")
+  .css("padding", "0px")
+  .css("margin", "0px");
+$("canvas")
+  .css("padding", "0px")
+  .css("margin", "0px")
+  .css("width", "200px")
+  .css("height", "200px");
 
 function randFun() {
   const pats = [
@@ -57,7 +70,7 @@ function randFun() {
     "B / A",
     "B - A"
   ];
-  const args = ["uv.x", "uv.y", Math.random().toFixed(6)];
+  const args = ["uv.x", "uv.y", "t", Math.random().toFixed(6)];
   let s = "";
   let longest = "";
   for (let i = 0; i < 100; i++) {
@@ -106,6 +119,8 @@ function addCanvas(body) {
     `
   precision mediump float;
   
+  uniform float t;
+  
   varying vec2 uv;
   
   void main() {
@@ -120,6 +135,7 @@ function addCanvas(body) {
   render();
   function render() {
     shader.bind();
+    shader.uniforms.t += 0.01;
     quad.bind();
     quad.draw();
 
