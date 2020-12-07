@@ -12,10 +12,10 @@ const $ = require("jquery");
 const THREE = require("three");
 const quad = require("./quad.js");
 
-const DEPTH = 100;
+const DEPTH = 10;
 const X = "vUV.x";
 const Y = "vUV.y";
-const width = Math.max(100, window.innerWidth / 10);
+const width = Math.max(100, window.innerWidth / 4);
 const height = width;
 //const height = Math.max(100, window.innerHeight / 10);
 // const width = Math.max(100, window.innerWidth / 1);
@@ -39,7 +39,6 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
       (1 * (y - height)) / window.innerHeight,
       z
     );
-    const f1 = randFun();
     const cond =
       X +
       " > " +
@@ -62,6 +61,9 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
     const r = Math.random();
     const g = Math.random();
     const b = Math.random();
+    const nx = "(" + X + " - " + fstr(ppos.x) + ") / " + fstr(width);
+    const ny = "(" + Y + " - " + fstr(ppos.y) + ") / " + fstr(height);
+    const f1 = randFun(nx, ny);
     const f2 = "((" + cond + ") ? vec3(" + f1 + ") : vec3(0.0))";
     // const f2 =
     //   "((" + cond + ") ? vec3(" + r + ", " + g + ", " + b + ") : vec3(0.0))";
@@ -96,7 +98,7 @@ $("canvas")
 // .css("width", "200px")
 // .css("height", "200px");
 
-function randFun() {
+function randFun(x,  y) {
   const pats = [
     "exp2(A)",
     "log2(A)",
