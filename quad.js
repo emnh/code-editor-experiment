@@ -54,6 +54,8 @@ function initQuad(vert, frag) {
 }
 
 function onWindowResize() {
+  renderer.domElement.width = window.innerWidth;
+  renderer.domElement.height = window.innerHeight;
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
