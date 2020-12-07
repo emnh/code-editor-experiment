@@ -12,11 +12,17 @@ const $ = require("jquery");
 const THREE = require("three");
 const quad = require("./quad.js");
 
-const DEPTH = 10;
+const DEPTH = 1;
 const X = "vUV.x";
 const Y = "vUV.y";
-const width = Math.max(100, window.innerWidth / 10);
-const height = Math.max(100, window.innerHeight / 10);
+// const width = Math.max(100, window.innerWidth / 10);
+// const height = Math.max(100, window.innerHeight / 10);
+const width = Math.max(100, window.innerWidth / 1);
+const height = Math.max(100, window.innerHeight / 1);
+
+function fstr(x) {
+  return x.toFixed(6);
+}
 
 const fs = [];
 for (let x = 0; x < window.innerWidth; x += width) {
@@ -36,45 +42,46 @@ for (let x = 0; x < window.innerWidth; x += width) {
     const cond =
       X +
       " > " +
-      ppos.x +
+      fstr(ppos.x) +
       " && " +
       Y +
       " > " +
-      ppos.y +
+      fstr(ppos.y) +
       " && " +
       X +
       " < " +
-      pos.x +
+      fstr(pos.x) +
       " && " +
       Y +
       " < " +
-      pos.y +
+      fstr(pos.y) +
       " && " +
-      "";
+      "true";
     console.log(ppos.x, pos.x, ppos.y, pos.y);
     const r = Math.random();
     const g = Math.random();
     const b = Math.random();
-    const f2 = "(" + cond + " ? vec3(" + r + ", " + g + ", " + b + "): 0.0)";
+    const f2 =
+      "((" + cond + ") ? vec3(" + r + ", " + g + ", " + b + ") : vec3(0.0))";
     // const f2 =
     //   "r = " + r + ";" + "g = " + g + ";" + "b = " + b + ";" + "a = 1.0;";
     fs.push(f2);
   }
 }
-let s = "s = vec3(0.0);\n";
+let s = "vec3 s = vec3(0.0);\n";
 for (let i = 0; i < fs.length; i++) {
   // s += fs[i] + " + ";
-  s += "s += " + fs[i];
+  s += "    s += " + fs[i] + ";";
 }
 console.log(s);
 // return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 const prebody = s;
 // const body = prebody + "\n;gl_FragColor = vec4(r, g, b, a);";
 // const body = prebody + "\n;gl_FragColor = vec4(r, g, b, a);";
-const body = prebody + "\n;gl_FragColor = vec4(s, 1.0);";
+const body = prebody + "\n gl_FragColor = vec4(s, 1.0);";
 
 quad.init();
-const canvas = addCanvas(randGLSL());
+const canvas = addCanvas(body);
 quad.animate();
 
 $("#app")
