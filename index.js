@@ -61,8 +61,8 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
     const r = Math.random();
     const g = Math.random();
     const b = Math.random();
-    const nx = "(" + X + " - " + fstr(ppos.x) + ") / " + fstr(width);
-    const ny = "(" + Y + " - " + fstr(ppos.y) + ") / " + fstr(height);
+    const nx = "((" + X + " - " + fstr(ppos.x) + ") / " + fstr(width) + ")";
+    const ny = "((" + Y + " - " + fstr(ppos.y) + ") / " + fstr(height) + ")";
     const f1 = randFun(nx, ny);
     const f2 = "((" + cond + ") ? vec3(" + f1 + ") : vec3(0.0))";
     // const f2 =
@@ -98,7 +98,7 @@ $("canvas")
 // .css("width", "200px")
 // .css("height", "200px");
 
-function randFun(x,  y) {
+function randFun(x, y) {
   const pats = [
     "exp2(A)",
     "log2(A)",
@@ -142,7 +142,7 @@ function randFun(x,  y) {
     "B / max(A, 0.00001)",
     "B - A"
   ];
-  const args = ["vUV.x", "vUV.y", "time", Math.random().toFixed(6)];
+  const args = [x, y, "time", Math.random().toFixed(6)];
   let s = "";
   let longest = "";
   for (let i = 0; i < DEPTH; i++) {
