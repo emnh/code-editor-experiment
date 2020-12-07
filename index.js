@@ -129,7 +129,7 @@ $("canvas")
 // .css("width", "200px")
 // .css("height", "200px");
 
-function randPattern(x, y) {
+function randPattern(x, y, A, B) {
   const pats = [
     "exp2(A)",
     "log2(abs(A))",
@@ -187,7 +187,8 @@ function randFun(x, y) {
     const ar1 = Math.floor(Math.random() * args.length);
     // const ar1 = args.length - 1;
     const ar2 = Math.floor(Math.random() * args.length);
-    s = pats[pr].replace("A", args[ar1]).replace("B", args[ar2]);
+    //s = pats[pr].replace("A", args[ar1]).replace("B", args[ar2]);
+    s = randPattern(x, y, args[ar1], args[ar2]);
     args.push(s);
     if (s.length > longest.length) {
       longest = s;
