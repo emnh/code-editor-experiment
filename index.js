@@ -13,8 +13,10 @@ const THREE = require("three");
 const quad = require("./quad.js");
 
 const DEPTH = 10;
-const X = "vUV.x";
-const Y = "vUV.y";
+// const X = "vUV.x";
+// const Y = "vUV.y";
+const X = "gl_FragCoord.x / " + fstr(window.innerWidth);
+const Y = "gl_FragCoord.y / " + fstr(window.innerHeight);
 const width = Math.max(100, window.innerWidth / 4);
 const height = width;
 //const height = Math.max(100, window.innerHeight / 10);
@@ -35,8 +37,8 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
       z
     );
     const ppos = new THREE.Vector3(
-      (1 * (x - width)) / window.innerWidth,
-      (1 * (y - height)) / window.innerHeight,
+      (1 * Math.max(0, x - width)) / window.innerWidth,
+      (1 * Math.max(0, y - height)) / window.innerHeight,
       z
     );
     const cond =
@@ -61,10 +63,27 @@ for (let x = 0.0; x < window.innerWidth; x += width) {
     const r = Math.random();
     const g = Math.random();
     const b = Math.random();
-    const nx = "((" + X + " - " + fstr(ppos.x) + ") / " + fstr(width) + ")";
-    const ny = "((" + Y + " - " + fstr(ppos.y) + ") / " + fstr(height) + ")";
+    const nx =
+      "((" +
+      X +
+      " - " +
+      fstr(ppos.x) +
+      ") / " +
+      fstr(width / window.innerWidth) +
+      ")";
+    const ny =
+      "((" +
+      Y +
+      " - " +
+      fstr(ppos.y) +
+      ") / " +
+      fstr(height / window.innerHeight) +
+      ")";
     const f1 = randFun(nx, ny);
-    const f2 = "((" + cond + ") ? vec3(" + f1 + ") : vec3(0.0))";
+    // const f2 = "((" + cond + ") ? vec3(" + f1 + ") : vec3(0.0))";
+    const f2 =
+      "((" + cond + ") ? vec3(" + nx + ", " + ny + ", 0.0) : vec3(0.0))";
+
     // const f2 =
     //   "((" + cond + ") ? vec3(" + r + ", " + g + ", " + b + ") : vec3(0.0))";
     fs.push(f2);
