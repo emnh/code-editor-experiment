@@ -1,8 +1,5 @@
 const THREE = require("three");
 
-const width = 200;
-const height = 200;
-
 let camera, scene, renderer;
 
 let uniforms;
@@ -21,17 +18,17 @@ function init() {
   renderer.setPixelRatio(window.devicePixelRatio);
   container.appendChild(renderer.domElement);
 
+  uniforms = {
+    time: { value: 1.0 }
+  };
+
   onWindowResize();
 
   window.addEventListener("resize", onWindowResize, false);
 }
 
-function initQuad(vert, frag) {
+function initQuad(vert, frag, pos) {
   const geometry = new THREE.PlaneBufferGeometry(2, 2);
-
-  uniforms = {
-    time: { value: 1.0 }
-  };
 
   const material = new THREE.ShaderMaterial({
     uniforms: uniforms,
@@ -42,12 +39,13 @@ function initQuad(vert, frag) {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
+  mesh.position.set(pos.x, pos.y, pos.z);
+
   return mesh;
 }
 
 function onWindowResize() {
-  renderer.setSize(width, height);
-  // renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 //

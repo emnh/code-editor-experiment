@@ -9,11 +9,26 @@ const $ = require("jquery");
 //const Quad = require("gl-big-quad");
 //const Shader = require("gl-shader");
 //const raf = require("raf");
+const THREE = require("three");
 const quad = require("./quad.js");
 
-for (let i = 0; i < 12; i++) {
-  const canvas = addCanvas(randGLSL());
+quad.init();
+
+const width = 200;
+const height = 200;
+
+for (let x = 0; x < window.innerWidth; x += width) {
+  for (let y = 0; y < window.innerHeight; y += height) {
+    const z = 0.0;
+    const pos = new THREE.Vector3(
+      (x * 1.0) / window.innerWidth,
+      (y * 1.0) / window.innerHeight,
+      z
+    );
+    const canvas = addCanvas(randGLSL(), pos);
+  }
 }
+quad.animate();
 
 $("#app")
   .css("padding", "0px")
@@ -92,9 +107,7 @@ function randGLSL() {
   return "vec4(" + f + ", " + f + ", " + f + ", 1.0)";
 }
 
-quad.init();
-
-function addCanvas(body) {
+function addCanvas(body, pos) {
   const vert = `
   precision mediump float;
   
@@ -121,5 +134,5 @@ function addCanvas(body) {
   }
   `;
 
-  return quad.initQuad(vert, frag);
+  return quad.initQuad(vert, frag, pos);
 }
